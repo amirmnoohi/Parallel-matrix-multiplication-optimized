@@ -1,4 +1,4 @@
-#include "lib.h"
+#include "matrix.h"
 
 bool VerifyMultiplication(T** fmatrix, T** smatrix, T** rmatrix) {
 	T temp;

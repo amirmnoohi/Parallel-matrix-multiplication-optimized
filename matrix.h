@@ -57,6 +57,6 @@ public:
 	void clear();
 	void MatrixShow();
 	void FlatShow();
-	int_fast64_t SimpleMultiply(const Matrix& smatrix, Matrix&);
-	int_fast64_t FlatMultiply(const Matrix& smatrix, Matrix&);
+	int_fast64_t SimpleMultiply(const Matrix&, Matrix&);
+	int_fast64_t FlatMultiply(const Matrix&, Matrix&);
 };
