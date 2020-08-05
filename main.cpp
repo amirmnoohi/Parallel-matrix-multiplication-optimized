@@ -1,11 +1,10 @@
 #include "lib.h"
-void func() {
-
-}
 int main(int argc, char ** argv) {
+	MPI_Init(&argc, &argv);
+	MPI_Comm_size(MPI_COMM_WORLD, &workers);
+	MPI_Comm_rank(MPI_COMM_WORLD, &thread_id);
 
-
-	func();
+	
 
 
 

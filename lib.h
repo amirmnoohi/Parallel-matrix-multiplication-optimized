@@ -28,6 +28,9 @@ typedef chrono::nanoseconds Time;
 // Time unit for calculating Performance
 #define Time_Unit " nanoseconds"
 
+// Multi Threaded Variables
+int workers;
+int thread_id;
 
 // Function Decleration
 bool VerifyMultiplication(T**, T**, T**);
