@@ -1,7 +1,38 @@
 #include "matrix.h"
+void help(int filter) {
+	prints(" Help ", "#", 100);
 
-bool VerifyMultiplication(T** fmatrix, T** smatrix, T** rmatrix) {
-	T temp;
+	if (filter == 0 || filter == 1)
+		cout << "Method A - FlatRMultiply() : Flat Multiplication if B is Row Major in SEQUENTIAL Mode" << endl;
+	if (filter == 0 || filter == 2)
+		cout << "Method B - FlatRMultiply() : Flat Multiplication if B is Row Major in OPENMP Mode" << endl;
+	if (filter == 0 || filter == 3)
+		cout << "Method C - FlatRMultiply() : Flat Multiplication if B is Row Major in MPI Mode" << endl;
+
+	if (filter == 0 || filter == 1)
+		cout << "Method D - FlatTestC() : Flat Multiplication if B is Column Major in SEQUENTIAL Mode" << endl;
+	if (filter == 0 || filter == 2)
+		cout << "Method E - FlatTestC() : Flat Multiplication if B is Column Major in OPENMP Mode" << endl;
+	if (filter == 0 || filter == 3)
+		cout << "Method F - FlatTestC() : Flat Multiplication if B is Column Major in MPI Mode" << endl;
+
+	if (filter == 0 || filter == 1)
+		cout << "Method G - DACTest() : DAC Multiplication in SEQUENTIAL Mode" << endl;
+	if (filter == 0 || filter == 2)
+		cout << "Method H - DACTest() : DAC Multiplication in OPENMP Mode" << endl;
+	if (filter == 0 || filter == 3)
+		cout << "Method I - DACTest() : DAC Multiplication in MPI Mode" << endl;
+
+	if (filter == 0) {
+		prints(" Phase 0 : Prechecking System Status ", "#", 100);
+		cout << "\tParallel Type : " << PARALLEL_TYPE << endl;
+		cout << "\tNumber of Threads : " << NUMBER_OF_THREADS << endl;
+		cout << "\tMatrix Dimension : " << DIM << endl;
+	}
+
+}
+bool VerifyMultiplication(int** left, int** right, int** result) {
+	int temp;
 	bool flag = true;
 	cout << "\t" << now() << " : " << "Verify Multiplication Started" << endl;
 	for (int i = 0; i < DIM; i++)
@@ -11,9 +42,9 @@ bool VerifyMultiplication(T** fmatrix, T** smatrix, T** rmatrix) {
 			temp = 0;
 			for (int k = 0; k < DIM; k++)
 			{
-				temp += fmatrix[i][k] * smatrix[k][j];
+				temp += left[i][k] * right[k][j];
 			}
-			if (temp != rmatrix[i][j])
+			if (temp != result[i][j])
 				flag = false;
 		}
 	}
@@ -39,8 +70,8 @@ void prints(string text, const char* ch, int max_size = 20) {
 	}
 	cout << endl << ((text.size() % 2) ? ch : "") << text << endl;
 }
-T** SampleA() {
-	T b[8][8] = {
+int** SampleA1() {
+	int b[8][8] = {
 		{8,7,6,5,4,3,2,1},
 		{7,6,5,4,3,2,1,8},
 		{6,5,4,3,2,1,8,7},
@@ -50,10 +81,10 @@ T** SampleA() {
 		{2,1,8,7,6,5,4,3},
 		{1,8,7,6,5,4,3,2}
 	};
-	T** temp = new T * [8];
+	int** temp = new int* [8];
 	for (int i = 0; i < 8; i++)
 	{
-		temp[i] = new T[8];
+		temp[i] = new int[8];
 		for (int j = 0; j < 8; j++)
 		{
 			temp[i][j] = b[i][j];
@@ -61,8 +92,8 @@ T** SampleA() {
 	}
 	return temp;
 }
-T** SampleB() {
-	T a[8][8] =
+int** SampleA2() {
+	int a[8][8] =
 	{
 		{1,2,3,4,5,6,7,8},
 		{2,3,4,5,6,7,8,1},
@@ -73,10 +104,10 @@ T** SampleB() {
 		{7,8,1,2,3,4,5,6},
 		{8,1,2,3,4,5,6,7}
 	};
-	T** temp = new T * [8];
+	int** temp = new int* [8];
 	for (int i = 0; i < 8; i++)
 	{
-		temp[i] = new T[8];
+		temp[i] = new int[8];
 		for (int j = 0; j < 8; j++)
 		{
 			temp[i][j] = a[i][j];
@@ -84,63 +115,84 @@ T** SampleB() {
 	}
 	return temp;
 }
-Matrix::Matrix(T** matrix = NULL, short int type = ALL_RANDOM, bool is_row_major = true)
-/*
-	matrix : feeding inner matrix
-	type   : (-1 => from matrix) - (0 => all zero) - (1 => random)
-*/
+void Matrix::Init(int** matrix = NULL, short int type = ALL_RANDOM, bool is_row_major = true)
 {
 	cout << "\t" << now() << " : " << "Creating Matrix Started" << endl;
 	_is_row_major = is_row_major;
-	_matrix = new T * [DIM];
-	_flat = new T[DIM * DIM];
-
+	int temp = 0;
 	for (int i = 0; i < DIM; i++) {
-		_matrix[i] = new T[DIM];
 		for (int j = 0; j < DIM; j++) {
 			if (type == ALL_MATRIX)
-				_matrix[i][j] = matrix[i][j];
-			else if (type == ALL_ZERO)
-				_matrix[i][j] = 0;
-			else
-				_matrix[i][j] = rand() % MAX_VAL + MIN_VAL;
+				temp = matrix[i][j];
+			if (type == ALL_RANDOM)
+				temp = rand() % MAX_VAL + MIN_VAL;
 			if (is_row_major)
-				_flat[i * DIM + j] = _matrix[i][j];
+				_flat[i * DIM + j] = temp;
 			else
-				_flat[j * DIM + i] = _matrix[i][j];
+				_flat[j * DIM + i] = temp;
 		}
 	}
 	cout << "\t" << now() << " : " << "Creating Matrix Finished" << endl;
 }
-void Matrix::clear()
+Matrix::Matrix()
 {
-	for (int i = 0; i < DIM; i++)
-	{
-		delete[] _matrix[i];
+	_matrix = nullptr;
+	_flat = new int[DIM * DIM];
+	_is_row_major = true;
+}
+void Matrix::Clear()
+{
+	if (_matrix != nullptr) {
+		for (int i = 0; i < DIM; i++)
+		{
+			delete[] _matrix[i];
+		}
+		delete[] _matrix;
 	}
-	delete[] _matrix;
 	delete[] _flat;
 }
 Matrix::~Matrix()
 {
-	for (int i = 0; i < DIM; i++)
-	{
-		delete[] _matrix[i];
+	if (_matrix != nullptr) {
+		for (int i = 0; i < DIM; i++)
+		{
+			delete[] _matrix[i];
+		}
+		delete[] _matrix;
 	}
-	delete[] _matrix;
 	delete[] _flat;
 }
 void Matrix::MatrixShow()
-/*
-*/
 {
 	for (int i = 0; i < DIM; i++)
+	{
 		for (int j = 0; j < DIM; j++)
-			cout << _matrix[i][j] << " " << " \n"[j == DIM - 1];
+		{
+			if (_is_row_major)
+				printf("%-8d", _flat[i * DIM + j]);
+			else
+				printf("%-8d", _flat[j * DIM + i]);
+		}
+		cout << endl;
+	}
+}
+void Matrix::SaveToMatrix()
+{
+	_matrix = new int* [DIM];
+	for (int i = 0; i < DIM; i++)
+	{
+		_matrix[i] = new int[DIM];
+		for (int j = 0; j < DIM; j++)
+		{
+			if (_is_row_major)
+				_matrix[i][j] = _flat[i * DIM + j];
+			else
+				_matrix[i][j] = _flat[j * DIM + i];
+
+		}
+	}
 }
 void Matrix::FlatShow()
-/*
-*/
 {
 	for (int i = 0; i < DIM * DIM; i++)
 		cout << _flat[i] << " \n"[i == DIM * DIM - 1];

@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 #include <string>
 #include <utility>
@@ -6,57 +5,60 @@
 #include <chrono>
 #include <sstream>
 #include <ctime>
-#include "mpi.h"
 #pragma warning(disable:4996)
 using namespace std;
 
-// Support multiple data type
-typedef short int T;
-typedef chrono::high_resolution_clock C;
-typedef chrono::nanoseconds Time;
+
+typedef chrono::high_resolution_clock T;
+typedef chrono::seconds Time;
 
 // Dimension of matrices
-#define DIM 4096
+#define DIM 8
 
 // Maximum and Minimum value of random matrices
 #define MAX_VAL 100
 #define MIN_VAL 1
 
 // Verify Output Calculated Matrix
-#define VERIFY false
+#define VERIFY true
 
 // Time unit for calculating Performance
-#define Time_Unit " nanoseconds"
+#define Time_Unit " seconds"
 
-// Multi Threaded Variables
-int workers;
-int thread_id;
+//// Multi Threaded Variables
+extern int NUMBER_OF_THREADS;
+extern int THREAD_ID;
+extern string PARALLEL_TYPE;
+extern string METHOD;
+
 
 // Function Decleration
-bool VerifyMultiplication(T**, T**, T**);
+void help(int = 0);
+bool VerifyMultiplication(int**, int**, int**);
 void prints(string, const char*, int);
 string now();
-
+int** SampleA1();
+int** SampleA2();
 
 class Matrix {
 public:
 	enum {
-
 		ALL_MATRIX = 0x1,// set data from input matrix
 		ALL_ZERO = 0x2,  // set all element of matrix to zero
 		ALL_RANDOM = 0x3 // set all element of matrix randomly
 	};
-
-	T** _matrix;
-	T* _flat;
+	int** _matrix;
+	int* _flat;
 	bool _is_row_major;
 
 
-	Matrix(T**, short int, bool);
+	void Init(int**, short int, bool);
+	Matrix();
 	~Matrix();
-	void clear();
-	void MatrixShow();
+	void Clear();
 	void FlatShow();
-	int_fast64_t SimpleMultiply(const Matrix&, Matrix&);
-	int_fast64_t FlatMultiply(const Matrix&, Matrix&);
+	void MatrixShow();
+	void SaveToMatrix();
+	friend int_fast64_t FlatRMultiply(int[DIM * DIM], int[DIM * DIM], int[DIM * DIM]);
+	friend int_fast64_t FlatCMultiply(int[DIM * DIM], int[DIM * DIM], int[DIM * DIM]);
 };
