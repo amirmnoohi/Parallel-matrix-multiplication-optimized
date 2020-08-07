@@ -14,7 +14,7 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	end = start + (DIM / NUMBER_OF_THREADS);
 	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
 	chrono::steady_clock::time_point pre;
-	if (THREAD_ID) {
+	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
 		pre = T::now();
 	}
@@ -32,9 +32,11 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 		}
 	}
 	MPI_Gather(result, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, final, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, 0, MPI_COMM_WORLD);
-	if (THREAD_ID) {
+	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
 		cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+	}
+	else {
 		delete[] result;
 	}
 }
@@ -46,7 +48,7 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	end = start + (DIM / NUMBER_OF_THREADS);
 	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
 	chrono::steady_clock::time_point pre;
-	if (THREAD_ID) {
+	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
 		pre = T::now();
 	}
@@ -64,23 +66,28 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 		}
 	}
 	MPI_Gather(result, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, final, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, 0, MPI_COMM_WORLD);
-	if (THREAD_ID) {
+	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;	
+	}
+	else {
 		delete[] result;
 	}
 }
 
 
 int main(int argc, char** argv) {
-	MPI_Init(&argc, &argv);
+	MPI_Init(NULL, NULL);
 	MPI_Comm_size(MPI_COMM_WORLD, &NUMBER_OF_THREADS);
 	MPI_Comm_rank(MPI_COMM_WORLD, &THREAD_ID);
 	string output;
-	int_fast64_t time;
 
 	if (THREAD_ID == 0) {
-		if (argc != 3) {
+		for (size_t i = 0; i < argc; i++)
+		{
+			cout << argv[i] << endl;
+		}
+		if (argc != 2) {
 			cout << "ERROR: Please Specify Method: " << endl;
 			cout << "e.g: mpicc -np 4 a.out C";
 			help(3);
@@ -102,7 +109,7 @@ int main(int argc, char** argv) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
 		A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
-		if (argv[1] == "F")
+		if (string(argv[1]) == "F")
 			B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
 		else
 			B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
@@ -114,7 +121,7 @@ int main(int argc, char** argv) {
 	MPI_Bcast(C._flat, DIM * DIM, MPI_INT, 0, MPI_COMM_WORLD);
 
 	// Method C
-	if (argv[1] == "C") {
+	if (string(argv[1]) == "C") {
 		if (!THREAD_ID) {
 			Method = "C";
 			string output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
@@ -135,7 +142,7 @@ int main(int argc, char** argv) {
 
 
 	// Method F
-	if (argv[1] == "F") {
+	if (string(argv[1]) == "F") {
 		if (!THREAD_ID) {
 			Method = "F";
 			output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
@@ -143,7 +150,7 @@ int main(int argc, char** argv) {
 		}
 
 		FlatCMultiply(A._flat, B._flat, C._flat);
-		
+
 		if (!THREAD_ID && VERIFY) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();

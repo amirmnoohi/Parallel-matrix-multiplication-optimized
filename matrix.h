@@ -10,10 +10,10 @@ using namespace std;
 
 
 typedef chrono::high_resolution_clock T;
-typedef chrono::seconds Time;
+typedef chrono::milliseconds Time;
 
 // Dimension of matrices
-#define DIM 8
+#define DIM 1024
 
 // Maximum and Minimum value of random matrices
 #define MAX_VAL 100
@@ -23,7 +23,7 @@ typedef chrono::seconds Time;
 #define VERIFY true
 
 // Time unit for calculating Performance
-#define Time_Unit " seconds"
+#define Time_Unit " milliseconds"
 
 //// Multi Threaded Variables
 extern int NUMBER_OF_THREADS;
