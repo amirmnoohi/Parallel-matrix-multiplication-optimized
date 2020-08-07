@@ -65,10 +65,6 @@ int main(int argc, char** argv) {
 		help(2);
 		exit(EXIT_FAILURE);
 	}
-	if (DIM % NUMBER_OF_THREADS != 0) {
-		cout << "ERROR: Matrix can not be calculated with this number of tasks.\n";
-		exit(EXIT_FAILURE);
-	}
 	help(2);
 
 	Matrix A;
