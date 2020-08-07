@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 
 	// Method B
 	if (string(argv[1]) == "B") {
-		string output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
+		string output = string(" Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 
 		FlatRMultiply(A._flat, B._flat, C._flat);
@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();
 			C.SaveToMatrix();
-			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
+			output = string(" Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
 
 	// Method E
 	if (string(argv[1]) == "E") {
-		output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
+		output = string(" Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
 
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();
 			C.SaveToMatrix();
-			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
+			output = string(" Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
