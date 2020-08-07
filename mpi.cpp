@@ -74,6 +74,89 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	}
 }
 
+// Block Row Major Multiply
+void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
+	int start, end, temp = 0, pos = 0;
+	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
+	end = start + (DIM / NUMBER_OF_THREADS);
+	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
+	auto pre = T::now();
+	if (!THREAD_ID) {
+		cout << "\t" << now() << " : " << "Multiplying Started" << endl;
+	}
+
+	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
+	for (jj = 0; jj < DIM; jj += 2)
+	{
+		for (kk = 0; kk < DIM; kk += 2)
+		{
+			for (i = 0; i < DIM; i++)
+			{
+				for (j = jj; j < ((jj + 2) > DIM ? DIM : (jj + 2)); j++)
+				{
+					temp = 0;
+					for (k = kk; k < ((kk + 2) > DIM ? DIM : (kk + 2)); k++)
+					{
+						temp += left[i * DIM + k] * right[k * DIM + j];
+					}
+					result[pos] = temp;
+					pos++;
+				}
+			}
+		}
+	}
+	MPI_Gather(result, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, final, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, 0, MPI_COMM_WORLD);
+	if (!THREAD_ID) {
+		auto finish = T::now();
+		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+	}
+	else {
+		delete[] result;
+	}
+}
+
+// Block Column Major Multiply
+void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
+	int start, end, temp = 0, pos = 0;
+	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
+	end = start + (DIM / NUMBER_OF_THREADS);
+	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
+	auto pre = T::now();
+	if (!THREAD_ID) {
+		cout << "\t" << now() << " : " << "Multiplying Started" << endl;
+	}
+
+	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
+	for (jj = 0; jj < DIM; jj += 2)
+	{
+		for (kk = 0; kk < DIM; kk += 2)
+		{
+			for (i = 0; i < DIM; i++)
+			{
+				for (j = jj; j < ((jj + 2) > DIM ? DIM : (jj + 2)); j++)
+				{
+					temp = 0;
+					for (k = kk; k < ((kk + 2) > DIM ? DIM : (kk + 2)); k++)
+					{
+						temp += left[i * DIM + k] * right[j * DIM + k];
+					}
+					result[pos] = temp;
+					pos++;
+				}
+			}
+		}
+	}
+	MPI_Gather(result, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, final, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, 0, MPI_COMM_WORLD);
+	if (!THREAD_ID) {
+		auto finish = T::now();
+		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+	}
+	else {
+		delete[] result;
+	}
+}
 
 int main(int argc, char** argv) {
 	MPI_Init(NULL, NULL);
@@ -104,7 +187,7 @@ int main(int argc, char** argv) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
 		A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
-		if (string(argv[1]) == "F")
+		if (string(argv[1]) == "F" || string(argv[1]) == "L")
 			B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
 		else
 			B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
@@ -144,6 +227,48 @@ int main(int argc, char** argv) {
 		}
 
 		FlatCMultiply(A._flat, B._flat, C._flat);
+
+		if (!THREAD_ID && VERIFY) {
+			A.SaveToMatrix();
+			B.SaveToMatrix();
+			C.SaveToMatrix();
+			output = string(" Phase 3 : Matrix Verifying ");
+			prints(output, "#", 100);
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+		}
+	}
+	
+
+	// Method I
+	if (string(argv[1]) == "I") {
+		if (!THREAD_ID) {
+			output = string(" Phase 2 : Matrix Multiplying ");
+			prints(output, "#", 100);
+		}
+
+		BlockRMultiply(A._flat, B._flat, C._flat);
+
+		if (!THREAD_ID && VERIFY) {
+			A.SaveToMatrix();
+			B.SaveToMatrix();
+			C.SaveToMatrix();
+			output = string(" Phase 3 : Matrix Verifying ");
+			prints(output, "#", 100);
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+		}
+	}
+	
+
+	// Method L
+	if (string(argv[1]) == "L") {
+		if (!THREAD_ID) {
+			output = string(" Phase 2 : Matrix Multiplying ");
+			prints(output, "#", 100);
+		}
+
+		BlockCMultiply(A._flat, B._flat, C._flat);
 
 		if (!THREAD_ID && VERIFY) {
 			A.SaveToMatrix();

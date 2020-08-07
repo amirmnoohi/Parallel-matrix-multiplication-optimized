@@ -49,9 +49,10 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 		{
 			for (i = 0; i < DIM; i++)
 			{
-				for (j = jj; j < ((jj + 2) > DIM ? DIM : (jj + 2)); j++)
+				// For a block 2*2
+				for (j = jj; j < jj + 2; j++)
 				{
-					for (k = kk; k < ((kk + 2) > DIM ? DIM : (kk + 2)); k++)
+					for (k = kk; k < kk + 2; k++)
 					{
 						final[i * DIM + j] += left[i * DIM + k] * right[k * DIM + j];
 					}
