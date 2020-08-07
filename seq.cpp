@@ -4,8 +4,7 @@
 // Initial Variables
 int THREAD_ID;
 int NUMBER_OF_THREADS = 8;
-string PARALLEL_TYPE = "OPEN MP";
-string Method = "B";
+string PARALLEL_TYPE = "SEQUENTIAL";
 
 // Flat Row Major Multiply
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
@@ -53,7 +52,6 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 
 
 int main(int argc, char** argv) {
-	omp_set_num_threads(NUMBER_OF_THREADS);
 	string output;
 
 
@@ -80,10 +78,9 @@ int main(int argc, char** argv) {
 	C.Init(NULL, Matrix::ALL_ZERO, true);
 
 
-	// Method B
+	// Method A
 	if (string(argv[1]) == "B") {
-		Method = "B";
-		string output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
+		string output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 
 		FlatRMultiply(A._flat, B._flat, C._flat);
@@ -93,17 +90,16 @@ int main(int argc, char** argv) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();
 			C.SaveToMatrix();
-			output = string(" Method ") + Method + string(" - Phase 3 : Matrix Verifying ");
+			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
 			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
 		}
 	}
 
 
-	// Method E
-	if (string(argv[1]) == "E") {
-		Method = "E";
-		output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
+	// Method D
+	if (string(argv[1]) == "D") {
+		output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
 
@@ -113,7 +109,7 @@ int main(int argc, char** argv) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();
 			C.SaveToMatrix();
-			output = string(" Method ") + Method + string(" - Phase 3 : Matrix Verifying ");
+			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
 			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
 		}

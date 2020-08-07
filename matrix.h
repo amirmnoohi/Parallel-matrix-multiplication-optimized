@@ -29,7 +29,6 @@ typedef chrono::milliseconds Time;
 extern int NUMBER_OF_THREADS;
 extern int THREAD_ID;
 extern string PARALLEL_TYPE;
-extern string METHOD;
 
 
 // Function Decleration

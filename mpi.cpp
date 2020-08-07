@@ -5,7 +5,6 @@
 int THREAD_ID;
 int NUMBER_OF_THREADS;
 string PARALLEL_TYPE = "MPI";
-string Method = "C";
 
 // Flat Row Major Multiply
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
@@ -123,8 +122,7 @@ int main(int argc, char** argv) {
 	// Method C
 	if (string(argv[1]) == "C") {
 		if (!THREAD_ID) {
-			Method = "C";
-			string output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
+			string output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
 			prints(output, "#", 100);
 		}
 
@@ -134,7 +132,7 @@ int main(int argc, char** argv) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();
 			C.SaveToMatrix();
-			output = string(" Method ") + Method + string(" - Phase 3 : Matrix Verifying ");
+			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
 			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
 		}
@@ -144,8 +142,7 @@ int main(int argc, char** argv) {
 	// Method F
 	if (string(argv[1]) == "F") {
 		if (!THREAD_ID) {
-			Method = "F";
-			output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
+			output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
 			prints(output, "#", 100);
 		}
 
@@ -155,7 +152,7 @@ int main(int argc, char** argv) {
 			A.SaveToMatrix();
 			B.SaveToMatrix();
 			C.SaveToMatrix();
-			output = string(" Method ") + Method + string(" - Phase 3 : Matrix Verifying ");
+			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
 			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
 		}
