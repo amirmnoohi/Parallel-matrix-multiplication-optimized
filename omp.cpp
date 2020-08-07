@@ -91,6 +91,7 @@ void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
 	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
+
 int main(int argc, char** argv) {
 	omp_set_num_threads(NUMBER_OF_THREADS);
 	string output;
