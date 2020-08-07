@@ -3,28 +3,19 @@
 
 // Initial Variables
 int THREAD_ID;
-int NUMBER_OF_THREADS = 8;
+int NUMBER_OF_THREADS = 32;
 string PARALLEL_TYPE = "OPEN MP";
 
 //Row Major Multiply
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
-	int IB, JB, KB;
-#pragma omp parallel for private(IB, JB, KB)
+#pragma omp parallel for
 	for (int i = 0; i < DIM; i++)
-	{
-		IB = i * DIM;
 		for (int j = 0; j < DIM; j++)
-		{
-			JB = j * DIM;
 			for (int k = 0; k < DIM; k++)
-			{
-				KB = k * DIM;
-				final[IB + j] += left[IB + k] * right[KB + j];
-			}
-		}
-	}
+				final[i * DIM + j] += left[i * DIM + k] * right[k * DIM + j];
+
 	auto finish = T::now();
 	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
 	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
@@ -34,21 +25,12 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
-	int IB, JB, KB;
-#pragma omp parallel for private(IB, JB, KB)
+#pragma omp parallel for
 	for (int i = 0; i < DIM; i++)
-	{
-		IB = i * DIM;
 		for (int j = 0; j < DIM; j++)
-		{
-			JB = j * DIM;
 			for (int k = 0; k < DIM; k++)
-			{
-				KB = k * DIM;
-				final[IB + j] += left[IB + k] * right[JB + k];
-			}
-		}
-	}
+				final[i * DIM + j] += left[i * DIM + k] * right[j * DIM + k];
+
 	auto finish = T::now();
 	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
 	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
@@ -57,6 +39,15 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 
 int main(int argc, char** argv) {
 	omp_set_num_threads(NUMBER_OF_THREADS);
+//#pragma omp parallel for
+//	for (int i = 0; i < 10; i++)
+//	{
+//		for (int j = 0; j < 4; j++)
+//		{
+//			cout << "I : " << i << " J : " << j << " : " << omp_get_thread_num() << endl << endl;
+//		}
+//	}
+	//exit(0);
 	string output;
 
 
