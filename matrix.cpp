@@ -24,7 +24,6 @@ void help(int filter, int show_stats) {
 		cout << "Method I - DACTest() : DAC Multiplication in MPI Mode" << endl;
 
 	if (filter == 0 || show_stats == 1) {
-
 		prints(" Phase 0 : Prechecking System Status ", "#", 100);
 		cout << "\tParallel Type : " << PARALLEL_TYPE << endl;
 		cout << "\tNumber of Threads : " << (filter == 1 ? 1 : NUMBER_OF_THREADS) << endl;
