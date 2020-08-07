@@ -10,7 +10,7 @@ string PARALLEL_TYPE = "OPEN MP";
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
-#pragma omp parallel for
+#pragma omp parallel for collapse(2)
 	for (int i = 0; i < DIM; i++)
 		for (int j = 0; j < DIM; j++)
 			for (int k = 0; k < DIM; k++)
@@ -25,7 +25,7 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
-#pragma omp parallel for
+#pragma omp parallel for collapse(2)
 	for (int i = 0; i < DIM; i++)
 		for (int j = 0; j < DIM; j++)
 			for (int k = 0; k < DIM; k++)
