@@ -42,21 +42,17 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	auto pre = T::now();
 
 	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
-#pragma omp parallel for schedule(static, 1) shared(left, right, final) private(i, j, k, jj, kk) collapse(2)
-	for (jj = 0; jj < DIM; jj += 2)
+#pragma omp parallel for collapse(2)
+	for (int i = 0; i < DIM; i += 2)
 	{
-		for (kk = 0; kk < DIM; kk += 2)
+		for (int j = 0; j < DIM; j += 2)
 		{
-			for (i = 0; i < DIM; i++)
+			for (int k = 0; k < DIM; k += 2)
 			{
-				// For a block 2*2
-				for (j = jj; j < jj + 2; j++)
-				{
-					for (k = kk; k < kk + 2; k++)
-					{
-						final[i * DIM + j] += left[i * DIM + k] * right[k * DIM + j];
-					}
-				}
+				final[i * DIM + j] += left[i * DIM + k] * right[k * DIM + j] + left[i * DIM + k + 1] * right[(k + 1) * DIM + j];
+				final[i * DIM + j + 1] += left[i * DIM + k] * right[k * DIM + j + 1] + left[i * DIM + k + 1] * right[(k + 1) * DIM + j + 1];
+				final[(i + 1) * DIM + j] += left[(i + 1) * DIM + k] * right[k * DIM + j] + left[(i + 1) * DIM + k + 1] * right[(k + 1) * DIM + j];
+				final[(i + 1) * DIM + j + 1] += left[(i + 1) * DIM + k] * right[k * DIM + j + 1] + left[(i + 1) * DIM + k + 1] * right[(k + 1) * DIM + j + 1];
 			}
 		}
 	}
@@ -71,20 +67,17 @@ void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	auto pre = T::now();
 
 	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
-#pragma omp parallel for schedule(static, 1) shared(left, right, final) private(i, j, k, jj, kk) collapse(2)
-	for (jj = 0; jj < DIM; jj += 2)
+#pragma omp parallel for collapse(2)
+	for (int i = 0; i < DIM; i += 2)
 	{
-		for (kk = 0; kk < DIM; kk += 2)
+		for (int j = 0; j < DIM; j += 2)
 		{
-			for (i = 0; i < DIM; i++)
+			for (int k = 0; k < DIM; k += 2)
 			{
-				for (j = jj; j < ((jj + 2) > DIM ? DIM : (jj + 2)); j++)
-				{
-					for (k = kk; k < ((kk + 2) > DIM ? DIM : (kk + 2)); k++)
-					{
-						final[i * DIM + j] += left[i * DIM + k] * right[j * DIM + k];
-					}
-				}
+				final[i * DIM + j] += left[i * DIM + k] * right[j * DIM + k] + left[i * DIM + k + 1] * right[j * DIM + k + 1];
+				final[i * DIM + j + 1] += left[i * DIM + k] * right[(j + 1) * DIM + k] + left[i * DIM + k + 1] * right[(j + 1) * DIM + k + 1];
+				final[(i + 1) * DIM + j] += left[(i + 1) * DIM + k] * right[j * DIM + k] + left[(i + 1) * DIM + k + 1] * right[j * DIM + k + 1];
+				final[(i + 1) * DIM + j + 1] += left[(i + 1) * DIM + k] * right[(j + 1) * DIM + k] + left[(i + 1) * DIM + k + 1] * right[(j + 1) * DIM + k + 1];
 			}
 		}
 	}
@@ -176,7 +169,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		C.MatrixShow();
 	}
 
 
@@ -196,7 +188,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		C.MatrixShow();
 	}
 	return 0;
 }
