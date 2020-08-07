@@ -46,10 +46,9 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
 	end = start + (DIM / NUMBER_OF_THREADS);
 	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
-	chrono::steady_clock::time_point pre;
+	auto pre = T::now();
 	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Multiplying Started" << endl;
-		pre = T::now();
 	}
 	for (int i = start; i < end; i++)
 	{
