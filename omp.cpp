@@ -3,66 +3,73 @@
 
 // Initial Variables
 int THREAD_ID;
-int NUMBER_OF_THREADS;
-string PARALLEL_TYPE = "MPI";
-string Method = "C";
+int NUMBER_OF_THREADS = 8;
+string PARALLEL_TYPE = "OPEN MP";
+string Method = "B";
 
 // Flat Row Major Multiply
-int_fast64_t  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
+void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
-	int IB, JB, KB, temp;
 	auto pre = T::now();
+	int IB, JB, KB;
+#pragma omp parallel for private(IB, JB, KB)
 	for (int i = 0; i < DIM; i++)
 	{
+		IB = i * DIM;
 		for (int j = 0; j < DIM; j++)
 		{
+			JB = j * DIM;
 			for (int k = 0; k < DIM; k++)
 			{
-				final[i * DIM + k] += left[i * DIM + k] * right[j * DIM + k];
+				KB = k * DIM;
+				final[IB + j] += left[IB + k] * right[KB + j];
 			}
 		}
 	}
 	cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-	return  chrono::duration_cast<Time>(T::now() - pre).count();
+	cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
 }
 
 // Flat Column Major Multiply
-int_fast64_t  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
+void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
-	int IB, JB, KB, temp;
 	auto pre = T::now();
+	int IB, JB, KB;
+#pragma omp parallel for private(IB, JB, KB)
 	for (int i = 0; i < DIM; i++)
 	{
+		IB = i * DIM;
 		for (int j = 0; j < DIM; j++)
 		{
+			JB = j * DIM;
 			for (int k = 0; k < DIM; k++)
 			{
-				final[i*DIM + k] += left[i * DIM + k] * right[j * DIM + k];
+				KB = k * DIM;
+				final[IB + j] += left[IB + k] * right[JB + k];
 			}
 		}
 	}
 	cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-	return  chrono::duration_cast<Time>(T::now() - pre).count();
+	cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
 }
 
 
 int main(int argc, char** argv) {
-
+	omp_set_num_threads(NUMBER_OF_THREADS);
 	string output;
-	int_fast64_t time;
 
 
-	if (argc != 3) {
+	if (argc != 2) {
 		cout << "ERROR: Please Specify Method: " << endl;
-		cout << "e.g: mpicc -np 4 a.out C";
-		help(3);
+		cout << "e.g: ./a.out B";
+		help(2);
 		exit(EXIT_FAILURE);
 	}
 	if (DIM % NUMBER_OF_THREADS != 0) {
 		cout << "ERROR: Matrix can not be calculated with this number of tasks.\n";
 		exit(EXIT_FAILURE);
 	}
-	help(3);
+	help(2);
 
 	Matrix A;
 	Matrix B;
@@ -72,7 +79,7 @@ int main(int argc, char** argv) {
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
 	A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
-	if (argv[1] == "B")
+	if (string(argv[1]) == "E")
 		B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
 	else
 		B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
@@ -80,14 +87,13 @@ int main(int argc, char** argv) {
 
 
 	// Method B
-	if (argv[1] == "B") {
-
+	if (string(argv[1]) == "B") {
 		Method = "B";
 		string output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 
-		time = FlatRMultiply(A._flat, B._flat, C._flat);
-		cout << "\tTime: " << time << endl;
+		FlatRMultiply(A._flat, B._flat, C._flat);
+
 
 		if (VERIFY) {
 			A.SaveToMatrix();
@@ -101,16 +107,13 @@ int main(int argc, char** argv) {
 
 
 	// Method E
-	if (argv[1] == "E") {
+	if (string(argv[1]) == "E") {
 		Method = "E";
 		output = string(" Method ") + Method + string(" - Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
 
-		time = FlatCMultiply(A._flat, B._flat, C._flat);
-
-
-		cout << "\tTime: " << time << endl;
+		FlatCMultiply(A._flat, B._flat, C._flat);
 
 		if (VERIFY) {
 			A.SaveToMatrix();
