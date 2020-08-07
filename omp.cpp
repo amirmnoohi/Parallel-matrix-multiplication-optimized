@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 		help(2);
 		exit(EXIT_FAILURE);
 	}
-	help(2);
+	help(2, 1);
 
 	Matrix A;
 	Matrix B;

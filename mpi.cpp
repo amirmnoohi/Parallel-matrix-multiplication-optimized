@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 			cout << "ERROR: Matrix can not be calculated with this number of tasks.\n";
 			exit(EXIT_FAILURE);
 		}
-		help(3);
+		help(3, 1);
 	}
 
 	Matrix A;
