@@ -59,6 +59,6 @@ public:
 	void FlatShow();
 	void MatrixShow();
 	void SaveToMatrix();
-	friend int_fast64_t FlatRMultiply(int[DIM * DIM], int[DIM * DIM], int[DIM * DIM]);
-	friend int_fast64_t FlatCMultiply(int[DIM * DIM], int[DIM * DIM], int[DIM * DIM]);
+	friend void FlatRMultiply(int[DIM * DIM], int[DIM * DIM], int[DIM * DIM]);
+	friend void FlatCMultiply(int[DIM * DIM], int[DIM * DIM], int[DIM * DIM]);
 };
