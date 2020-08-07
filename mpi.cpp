@@ -14,7 +14,7 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
 	auto pre = T::now();
 	if (!THREAD_ID) {
-		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
+		cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	}
 	for (int i = start; i < end; i++)
 	{
@@ -31,8 +31,9 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	}
 	MPI_Gather(result, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, final, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, 0, MPI_COMM_WORLD);
 	if (!THREAD_ID) {
-		cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+		auto finish = T::now();
+		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 	}
 	else {
 		delete[] result;
@@ -47,7 +48,7 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
 	chrono::steady_clock::time_point pre;
 	if (!THREAD_ID) {
-		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
+		cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 		pre = T::now();
 	}
 	for (int i = start; i < end; i++)
@@ -65,8 +66,9 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	}
 	MPI_Gather(result, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, final, DIM * DIM / NUMBER_OF_THREADS, MPI_INT, 0, MPI_COMM_WORLD);
 	if (!THREAD_ID) {
-		cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;	
+		auto finish = T::now();
+		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 	}
 	else {
 		delete[] result;

@@ -8,7 +8,7 @@ string PARALLEL_TYPE = "SEQUENTIAL";
 
 // Flat Row Major Multiply
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
-	cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
+	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
 	int IB, JB, KB;
 	for (int i = 0; i < DIM; i++)
@@ -24,13 +24,14 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 			}
 		}
 	}
-	cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-	cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+	auto finish = T::now();
+	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
 
 // Flat Column Major Multiply
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
-	cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
+	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
 	int IB, JB, KB;
 	for (int i = 0; i < DIM; i++)
@@ -46,8 +47,9 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 			}
 		}
 	}
-	cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-	cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+	auto finish = T::now();
+	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
 
 

@@ -6,9 +6,9 @@ int THREAD_ID;
 int NUMBER_OF_THREADS = 8;
 string PARALLEL_TYPE = "OPEN MP";
 
-// Flat Row Major Multiply
+//Row Major Multiply
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
-	cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
+	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
 	int IB, JB, KB;
 #pragma omp parallel for private(IB, JB, KB)
@@ -25,13 +25,14 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 			}
 		}
 	}
-	cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-	cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+	auto finish = T::now();
+	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
 
-// Flat Column Major Multiply
+//Column Major Multiply
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
-	cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
+	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
 	int IB, JB, KB;
 #pragma omp parallel for private(IB, JB, KB)
@@ -48,8 +49,9 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 			}
 		}
 	}
-	cout << "\t" << now() << " : " << "Flat Multiplying Finished" << endl;
-	cout << "\tTime: " << chrono::duration_cast<Time>(T::now() - pre).count() << endl;
+	auto finish = T::now();
+	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
 
 
