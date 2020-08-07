@@ -28,7 +28,6 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
 	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
-
 // Flat Column Major Multiply
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
@@ -51,7 +50,58 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
 	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 }
+// Block Row Major Multiply
+void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
+	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
+	auto pre = T::now();
 
+	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
+	for (jj = 0; jj < DIM; jj += 2)
+	{
+		for (kk = 0; kk < DIM; kk += 2)
+		{
+			for (i = 0; i < DIM; i++)
+			{
+				for (j = jj; j < ((jj + 2) > DIM ? DIM : (jj + 2)); j++)
+				{
+					for (k = kk; k < ((kk + 2) > DIM ? DIM : (kk + 2)); k++)
+					{
+						final[i * DIM + j] += left[i * DIM + k] * right[k * DIM + j];
+					}
+				}
+			}
+		}
+	}
+	auto finish = T::now();
+	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+}
+// Block Column Major Multiply
+void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
+	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
+	auto pre = T::now();
+
+	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
+	for (jj = 0; jj < DIM; jj += 2)
+	{
+		for (kk = 0; kk < DIM; kk += 2)
+		{
+			for (i = 0; i < DIM; i++)
+			{
+				for (j = jj; j < ((jj + 2) > DIM ? DIM : (jj + 2)); j++)
+				{
+					for (k = kk; k < ((kk + 2) > DIM ? DIM : (kk + 2)); k++)
+					{
+						final[i * DIM + j] += left[i * DIM + k] * right[j * DIM + k];
+					}
+				}
+			}
+		}
+	}
+	auto finish = T::now();
+	cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
+	cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+}
 
 int main(int argc, char** argv) {
 	string output;
@@ -73,7 +123,7 @@ int main(int argc, char** argv) {
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
 	A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
-	if (string(argv[1]) == "D")
+	if (string(argv[1]) == "D" || string(argv[1]) == "J")
 		B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
 	else
 		B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
@@ -104,9 +154,44 @@ int main(int argc, char** argv) {
 	if (string(argv[1]) == "D") {
 		output = string(" Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
-		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
 
 		FlatCMultiply(A._flat, B._flat, C._flat);
+
+		if (VERIFY) {
+			A.SaveToMatrix();
+			B.SaveToMatrix();
+			C.SaveToMatrix();
+			output = string(" Phase 3 : Matrix Verifying ");
+			prints(output, "#", 100);
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+		}
+	}
+
+	// Method G
+	if (string(argv[1]) == "G") {
+		output = string(" Phase 2 : Matrix Multiplying ");
+		prints(output, "#", 100);
+
+		BlockRMultiply(A._flat, B._flat, C._flat);
+
+		if (VERIFY) {
+			A.SaveToMatrix();
+			B.SaveToMatrix();
+			C.SaveToMatrix();
+			output = string(" Phase 3 : Matrix Verifying ");
+			prints(output, "#", 100);
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+		}
+	}
+
+	// Method J
+	if (string(argv[1]) == "J") {
+		output = string(" Phase 2 : Matrix Multiplying ");
+		prints(output, "#", 100);
+
+		BlockCMultiply(A._flat, B._flat, C._flat);
 
 		if (VERIFY) {
 			A.SaveToMatrix();

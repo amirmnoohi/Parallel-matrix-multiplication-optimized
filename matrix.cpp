@@ -17,11 +17,18 @@ void help(int filter, int show_stats) {
 		cout << "Method F - FlatCMultiply() : Flat Multiplication if B is Column Major in MPI Mode" << endl;
 
 	if (filter == 0 || filter == 1)
-		cout << "Method G - DACMultiply() : DAC Multiplication in SEQUENTIAL Mode" << endl;
+		cout << "Method G - BlockMultiply() : Block Multiplication if B is Row Major in SEQUENTIAL Mode" << endl;
 	if (filter == 0 || filter == 2)
-		cout << "Method H - DACMultiply() : DAC Multiplication in OPENMP Mode" << endl;
+		cout << "Method H - BlockMultiply() : Block Multiplication if B is Row Major in OPENMP Mode" << endl;
 	if (filter == 0 || filter == 3)
-		cout << "Method I - DACMultiply() : DAC Multiplication in MPI Mode" << endl;
+		cout << "Method I - BlockMultiply() : Block Multiplication if B is Row Major in MPI Mode" << endl;
+
+	if (filter == 0 || filter == 1)
+		cout << "Method J - BlockMultiply() : Block Multiplication if B is Column Major in SEQUENTIAL Mode" << endl;
+	if (filter == 0 || filter == 2)
+		cout << "Method K - BlockMultiply() : Block Multiplication if B is Column Major in OPENMP Mode" << endl;
+	if (filter == 0 || filter == 3)
+		cout << "Method L - BlockMultiply() : Block Multiplication if B is Column Major in MPI Mode" << endl;
 
 	if (filter == 0 || show_stats == 1) {
 		prints(" Phase 0 : Prechecking System Status ", "#", 100);
