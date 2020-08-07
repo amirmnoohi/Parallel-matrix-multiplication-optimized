@@ -68,9 +68,9 @@ int main(int argc, char** argv) {
 	int_fast64_t time;
 
 	if (THREAD_ID == 0) {
-		if (argc != 2) {
+		if (argc != 3) {
 			cout << "ERROR: Please Specify Method: " << endl;
-			cout << "e.g: mpicc -np 4 a.out C ";
+			cout << "e.g: mpicc -np 4 a.out C";
 			help(3);
 			exit(EXIT_FAILURE);
 		}
@@ -84,8 +84,8 @@ int main(int argc, char** argv) {
 	Matrix A;
 	Matrix B;
 	Matrix C;
-	if (!THREAD_ID) {
-	}
+
+
 	if (!THREAD_ID) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
@@ -100,7 +100,6 @@ int main(int argc, char** argv) {
 	MPI_Bcast(A._flat, DIM * DIM, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(B._flat, DIM * DIM, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(C._flat, DIM * DIM, MPI_INT, 0, MPI_COMM_WORLD);
-
 
 	// Method C
 	if (argv[1] == "C") {
