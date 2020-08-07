@@ -12,10 +12,9 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
 	end = start + (DIM / NUMBER_OF_THREADS);
 	int* result = new int[DIM * DIM / NUMBER_OF_THREADS];
-	chrono::steady_clock::time_point pre;
+	auto pre = T::now();
 	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Flat Multiplying Started" << endl;
-		pre = T::now();
 	}
 	for (int i = start; i < end; i++)
 	{
@@ -134,7 +133,8 @@ int main(int argc, char** argv) {
 			C.SaveToMatrix();
 			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
-			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
 
@@ -154,7 +154,8 @@ int main(int argc, char** argv) {
 			C.SaveToMatrix();
 			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
-			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
 

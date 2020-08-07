@@ -95,7 +95,8 @@ int main(int argc, char** argv) {
 			C.SaveToMatrix();
 			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
-			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
 
@@ -114,7 +115,8 @@ int main(int argc, char** argv) {
 			C.SaveToMatrix();
 			output = string(" Method ") + string(argv[1]) + string(" - Phase 3 : Matrix Verifying ");
 			prints(output, "#", 100);
-			cout << "\tResult is :" << (VerifyMultiplication(A._matrix, B._matrix, C._matrix) ? " Verified" : " Wrong") << endl;
+			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
+			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
 	return 0;
