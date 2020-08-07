@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
 		help(1);
 		exit(EXIT_FAILURE);
 	}
-	help(1);
+	help(1, 1);
 
 	Matrix A;
 	Matrix B;
@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
 	A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
-	if (string(argv[1]) == "E")
+	if (string(argv[1]) == "D")
 		B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
 	else
 		B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 
 
 	// Method A
-	if (string(argv[1]) == "B") {
+	if (string(argv[1]) == "A") {
 		string output = string(" Method ") + string(argv[1]) + string(" - Phase 2 : Matrix Multiplying ");
 		prints(output, "#", 100);
 

@@ -1,5 +1,5 @@
 #include "matrix.h"
-void help(int filter) {
+void help(int filter, int show_stats) {
 	prints(" Help ", "#", 100);
 
 	if (filter == 0 || filter == 1)
@@ -23,10 +23,11 @@ void help(int filter) {
 	if (filter == 0 || filter == 3)
 		cout << "Method I - DACTest() : DAC Multiplication in MPI Mode" << endl;
 
-	if (filter == 0) {
+	if (filter == 0 || show_stats == 1) {
+
 		prints(" Phase 0 : Prechecking System Status ", "#", 100);
 		cout << "\tParallel Type : " << PARALLEL_TYPE << endl;
-		cout << "\tNumber of Threads : " << NUMBER_OF_THREADS << endl;
+		cout << "\tNumber of Threads : " << (filter == 1 ? 1 : NUMBER_OF_THREADS) << endl;
 		cout << "\tMatrix Dimension : " << DIM << endl;
 	}
 

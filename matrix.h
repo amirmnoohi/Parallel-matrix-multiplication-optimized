@@ -32,7 +32,7 @@ extern string PARALLEL_TYPE;
 
 
 // Function Decleration
-void help(int = 0);
+void help(int = 0, int = 0);
 bool VerifyMultiplication(int**, int**, int**);
 void prints(string, const char*, int);
 string now();
