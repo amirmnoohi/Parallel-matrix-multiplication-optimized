@@ -14,7 +14,7 @@ typedef chrono::high_resolution_clock T;
 typedef chrono::microseconds Time;
 
 // Dimension of matrices
-#define DIM 256
+#define DIM 512
 
 // Maximum and Minimum value of random matrices
 #define MAX_VAL 100
