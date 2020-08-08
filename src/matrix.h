@@ -14,14 +14,14 @@ typedef chrono::high_resolution_clock T;
 typedef chrono::microseconds Time;
 
 // Dimension of matrices
-#define DIM 8
+#define DIM 8192
 
 // Maximum and Minimum value of random matrices
 #define MAX_VAL 100
 #define MIN_VAL 1
 
 // Verify Output Calculated Matrix
-#define VERIFY true
+#define VERIFY false
 
 // Time unit for calculating Performance
 #define Time_Unit " microseconds"

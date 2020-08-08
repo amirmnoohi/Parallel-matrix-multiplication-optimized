@@ -3,7 +3,7 @@
 
 // Initial Variables
 int THREAD_ID;
-int NUMBER_OF_THREADS = 8;
+int NUMBER_OF_THREADS = 32;
 string PARALLEL_TYPE = "SEQUENTIAL";
 
 // Flat Row Major Multiply
@@ -116,11 +116,11 @@ int main(int argc, char** argv) {
 
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
-	A.Init(SampleA(1), Matrix::ALL_MATRIX, true);
+	A.Init(SampleA(1024), Matrix::ALL_MATRIX, true);
 	if (string(argv[1]) == "D" || string(argv[1]) == "J")
-		B.Init(SampleB(1), Matrix::ALL_MATRIX, false);
+		B.Init(SampleB(1024), Matrix::ALL_MATRIX, false);
 	else
-		B.Init(SampleB(1), Matrix::ALL_MATRIX, true);
+		B.Init(SampleB(1024), Matrix::ALL_MATRIX, true);
 	C.Init(NULL, Matrix::ALL_ZERO, true);
 	A.MatrixShow();
 	cout << endl;

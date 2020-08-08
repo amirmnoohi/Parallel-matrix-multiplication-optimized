@@ -3,7 +3,7 @@
 
 // Initial Variables
 int THREAD_ID;
-int NUMBER_OF_THREADS = 64;
+int NUMBER_OF_THREADS = 32;
 string PARALLEL_TYPE = "OPEN MP";
 
 //Row Major Multiply
@@ -106,11 +106,11 @@ int main(int argc, char** argv) {
 
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
-	A.Init(SampleA(1), Matrix::ALL_MATRIX, true);
+	A.Init(SampleA(1024), Matrix::ALL_MATRIX, true);
 	if (string(argv[1]) == "E" || string(argv[1]) == "K")
-		B.Init(SampleB(1), Matrix::ALL_MATRIX, false);
+		B.Init(SampleB(1024), Matrix::ALL_MATRIX, false);
 	else
-		B.Init(SampleB(1), Matrix::ALL_MATRIX, true);
+		B.Init(SampleB(1024), Matrix::ALL_MATRIX, true);
 	C.Init(NULL, Matrix::ALL_ZERO, true);
 
 
@@ -169,6 +169,7 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
 	// Method K
 	if (string(argv[1]) == "K") {
@@ -186,6 +187,7 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
 	return 0;
 }

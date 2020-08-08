@@ -166,9 +166,9 @@ Matrix::~Matrix()
 }
 void Matrix::MatrixShow()
 {
-	for (int i = 0; i < DIM; i++)
+	for (int i = 0; i < 8; i++)
 	{
-		for (int j = 0; j < DIM; j++)
+		for (int j = 0; j < 8; j++)
 		{
 			if (_is_row_major)
 				printf("%-8d", _flat[i * DIM + j]);
