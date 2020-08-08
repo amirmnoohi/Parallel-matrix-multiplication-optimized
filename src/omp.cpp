@@ -3,7 +3,7 @@
 
 // Initial Variables
 int THREAD_ID;
-int NUMBER_OF_THREADS = 32;
+int NUMBER_OF_THREADS = 64;
 string PARALLEL_TYPE = "OPEN MP";
 
 //Row Major Multiply
