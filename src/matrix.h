@@ -10,7 +10,7 @@ using namespace std;
 
 
 typedef chrono::high_resolution_clock T;
-typedef chrono::microseconds Time;
+typedef chrono::nanoseconds Time;
 
 // Dimension of matrices
 #define DIM 8
@@ -23,7 +23,7 @@ typedef chrono::microseconds Time;
 #define VERIFY true
 
 // Time unit for calculating Performance
-#define Time_Unit " microseconds"
+#define Time_Unit " nanoseconds"
 
 //// Multi Threaded Variables
 extern int NUMBER_OF_THREADS;
