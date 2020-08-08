@@ -212,8 +212,8 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+			C.MatrixShow();
 		}
-		C.MatrixShow();
 	}
 	// Method F
 	if (string(argv[1]) == "F") {
@@ -232,8 +232,8 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+			C.MatrixShow();
 		}
-		C.MatrixShow();
 	}
 	// Method I
 	if (string(argv[1]) == "I") {
@@ -252,8 +252,8 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+			C.MatrixShow();
 		}
-		C.MatrixShow();
 	}
 	// Method L
 	if (string(argv[1]) == "L") {
@@ -272,8 +272,8 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
+			C.MatrixShow();
 		}
-		C.MatrixShow();
 	}
 	MPI_Finalize();
 	return 0;
