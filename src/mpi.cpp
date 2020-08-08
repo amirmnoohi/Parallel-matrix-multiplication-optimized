@@ -33,7 +33,7 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	if (!THREAD_ID) {
 		auto finish = T::now();
 		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << Time_Unit << endl;
 	}
 	else {
 		delete[] result;
@@ -66,7 +66,7 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	if (!THREAD_ID) {
 		auto finish = T::now();
 		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << Time_Unit << endl;
 	}
 	else {
 		delete[] result;
@@ -107,7 +107,7 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	if (!THREAD_ID) {
 		auto finish = T::now();
 		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << Time_Unit << endl;
 	}
 }
 // Block Column Major Multiply
@@ -145,7 +145,7 @@ void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	if (!THREAD_ID) {
 		auto finish = T::now();
 		cout << "\t" << now() << " : " << "Multiplying Finished" << endl;
-		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
+		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << Time_Unit << endl;
 	}
 }
 
