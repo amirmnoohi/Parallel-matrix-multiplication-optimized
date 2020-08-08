@@ -150,10 +150,6 @@ void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 }
 
 int main(int argc, char** argv) {
-	SampleA(1024);
-	cout << endl << endl;
-	SampleB(1024);
-	exit(0);
 	MPI_Init(NULL, NULL);
 	MPI_Comm_size(MPI_COMM_WORLD, &NUMBER_OF_THREADS);
 	MPI_Comm_rank(MPI_COMM_WORLD, &THREAD_ID);
@@ -187,11 +183,11 @@ int main(int argc, char** argv) {
 	if (!THREAD_ID) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
-		A.Init(SampleA(1), Matrix::ALL_RANDOM, true);
+		A.Init(SampleA(1), Matrix::ALL_MATRIX, true);
 		if (string(argv[1]) == "F" || string(argv[1]) == "L")
-			B.Init(SampleB(1), Matrix::ALL_RANDOM, false);
+			B.Init(SampleB(1), Matrix::ALL_MATRIX, false);
 		else
-			B.Init(SampleB(1), Matrix::ALL_RANDOM, true);
+			B.Init(SampleB(1), Matrix::ALL_MATRIX, true);
 		C.Init(NULL, Matrix::ALL_ZERO, true);
 	}
 

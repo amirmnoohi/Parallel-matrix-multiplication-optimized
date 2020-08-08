@@ -11,7 +11,7 @@ using namespace std;
 
 
 typedef chrono::high_resolution_clock T;
-typedef chrono::milliseconds Time;
+typedef chrono::microseconds Time;
 
 // Dimension of matrices
 #define DIM 8
@@ -24,7 +24,7 @@ typedef chrono::milliseconds Time;
 #define VERIFY true
 
 // Time unit for calculating Performance
-#define Time_Unit " milliseconds"
+#define Time_Unit " microseconds"
 
 //// Multi Threaded Variables
 extern int NUMBER_OF_THREADS;
