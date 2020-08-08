@@ -158,17 +158,17 @@ void Matrix::Clear()
 	}
 	delete[] _flat;
 }
-Matrix::~Matrix()
-{
-	if (_matrix != nullptr) {
-		for (int i = 0; i < DIM; i++)
-		{
-			delete[] _matrix[i];
-		}
-		delete[] _matrix;
-	}
-	delete[] _flat;
-}
+//Matrix::~Matrix()
+//{
+//	if (_matrix != nullptr) {
+//		for (int i = 0; i < DIM; i++)
+//		{
+//			delete[] _matrix[i];
+//		}
+//		delete[] _matrix;
+//	}
+//	delete[] _flat;
+//}
 void Matrix::MatrixShow()
 {
 	for (int i = 0; i < DIM; i++)

@@ -53,7 +53,7 @@ public:
 
 	void Init(int**, short int, bool);
 	Matrix();
-	~Matrix();
+	//~Matrix();
 	void Clear();
 	void FlatShow();
 	void MatrixShow();
