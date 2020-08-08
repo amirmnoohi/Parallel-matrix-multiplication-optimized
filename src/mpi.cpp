@@ -183,11 +183,11 @@ int main(int argc, char** argv) {
 	if (!THREAD_ID) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
-		A.Init(SampleA(1), Matrix::ALL_MATRIX, true);
+		A.Init(SampleA(1024), Matrix::ALL_MATRIX, true);
 		if (string(argv[1]) == "F" || string(argv[1]) == "L")
-			B.Init(SampleB(1), Matrix::ALL_MATRIX, false);
+			B.Init(SampleB(1024), Matrix::ALL_MATRIX, false);
 		else
-			B.Init(SampleB(1), Matrix::ALL_MATRIX, true);
+			B.Init(SampleB(1024), Matrix::ALL_MATRIX, true);
 		C.Init(NULL, Matrix::ALL_ZERO, true);
 	}
 
