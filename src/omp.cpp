@@ -3,7 +3,7 @@
 
 // Initial Variables
 int THREAD_ID;
-int NUMBER_OF_THREADS = 4;
+int NUMBER_OF_THREADS = 64;
 string PARALLEL_TYPE = "OPEN MP";
 
 //Row Major Multiply
@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
 		}
 		C.MatrixShow();
 	}
-	
+
 	// Method E
 	if (string(argv[1]) == "E") {
 		output = string(" Phase 2 : Matrix Multiplying ");
