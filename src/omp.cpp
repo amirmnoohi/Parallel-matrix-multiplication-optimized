@@ -10,7 +10,7 @@ string PARALLEL_TYPE = "OPEN MP";
 void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
-#pragma omp parallel for collapse(2)
+	#pragma omp parallel for collapse(2)
 	for (int i = 0; i < DIM; i++)
 		for (int j = 0; j < DIM; j++)
 			for (int k = 0; k < DIM; k++)
@@ -25,7 +25,7 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	cout << "\t" << now() << " : " << "Multiplying Started" << endl;
 	auto pre = T::now();
-#pragma omp parallel for collapse(2)
+	#pragma omp parallel for collapse(2)
 	for (int i = 0; i < DIM; i++)
 		for (int j = 0; j < DIM; j++)
 			for (int k = 0; k < DIM; k++)
@@ -42,7 +42,7 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	auto pre = T::now();
 
 	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
-#pragma omp parallel for collapse(2)
+	#pragma omp parallel for collapse(2)
 	for (int i = 0; i < DIM; i += 2)
 	{
 		for (int j = 0; j < DIM; j += 2)
@@ -67,7 +67,7 @@ void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	auto pre = T::now();
 
 	int i = 0, j = 0, k = 0, jj = 0, kk = 0;
-#pragma omp parallel for collapse(2)
+	#pragma omp parallel for collapse(2)
 	for (int i = 0; i < DIM; i += 2)
 	{
 		for (int j = 0; j < DIM; j += 2)
@@ -106,11 +106,11 @@ int main(int argc, char** argv) {
 
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
-	A.Init(SampleA(1), Matrix::ALL_RANDOM, true);
+	A.Init(SampleA(1), Matrix::ALL_MATRIX, true);
 	if (string(argv[1]) == "E" || string(argv[1]) == "K")
-		B.Init(SampleB(1), Matrix::ALL_RANDOM, false);
+		B.Init(SampleB(1), Matrix::ALL_MATRIX, false);
 	else
-		B.Init(SampleB(1), Matrix::ALL_RANDOM, true);
+		B.Init(SampleB(1), Matrix::ALL_MATRIX, true);
 	C.Init(NULL, Matrix::ALL_ZERO, true);
 
 
@@ -131,7 +131,9 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
+	
 	// Method E
 	if (string(argv[1]) == "E") {
 		output = string(" Phase 2 : Matrix Multiplying ");
@@ -148,7 +150,9 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
+
 	// Method H
 	if (string(argv[1]) == "H") {
 		output = string(" Phase 2 : Matrix Multiplying ");
