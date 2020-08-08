@@ -111,7 +111,7 @@ int** SampleB(int repeat) {
 			if (start == 0)
 				start = 8;
 		}
-		start++;
+		start--;
 		if (start == 0)
 			start = 8;
 	}

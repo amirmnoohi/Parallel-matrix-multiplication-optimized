@@ -122,7 +122,9 @@ int main(int argc, char** argv) {
 	else
 		B.Init(SampleB(1), Matrix::ALL_MATRIX, true);
 	C.Init(NULL, Matrix::ALL_ZERO, true);
-
+	A.MatrixShow();
+	cout << endl;
+	B.MatrixShow();
 
 	// Method A
 	if (string(argv[1]) == "A") {
@@ -141,6 +143,7 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
 	// Method D
 	if (string(argv[1]) == "D") {
@@ -158,6 +161,7 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
 	// Method G
 	if (string(argv[1]) == "G") {
@@ -175,6 +179,7 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
 	// Method J
 	if (string(argv[1]) == "J") {
@@ -192,6 +197,7 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
+		C.MatrixShow();
 	}
 	return 0;
 }
