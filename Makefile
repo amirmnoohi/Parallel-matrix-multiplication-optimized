@@ -1,13 +1,13 @@
 CC=g++
 LIBS=src/matrix.cpp
-
+FLAGS= -Wall -std=c++11 -g -fopenmp
 all: seq omp mpi
 
 seq:
-		$(CC)  -o bin/seq $(LIBS) src/seq.cpp
+		$(CC)  $(CFLAGS) -o bin/seq $(LIBS) src/seq.cpp
 
 omp:
-		$(CC) -fopenmp -o bin/omp $(LIBS) src/omp.cpp
+		$(CC) $(CFLAGS) -fopenmp -o bin/omp $(LIBS) src/omp.cpp
 
 mpi:
-		mpic++ -o bin/mpi $(LIBS) src/mpi.cpp
+		mpic++ $(CFLAGS) -o bin/mpi $(LIBS) src/mpi.cpp
