@@ -74,7 +74,7 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 }
 // Block Row Major Multiply
 void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
-	int start, end, temp[4] = { 0 }, pos = 0;
+	int start, end, temp[4] ={ 0 }, pos = 0;
 	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
 	end = start + (DIM / NUMBER_OF_THREADS);
 	int* result = new int[DIM * (DIM / NUMBER_OF_THREADS)];
@@ -112,7 +112,7 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 }
 // Block Column Major Multiply
 void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
-	int start, end, temp[4] = { 0 }, pos = 0;
+	int start, end, temp[4] ={ 0 }, pos = 0;
 	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
 	end = start + (DIM / NUMBER_OF_THREADS);
 	int* result = new int[(DIM / NUMBER_OF_THREADS) * DIM];
@@ -212,8 +212,9 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
-			C.MatrixShow();
 		}
+		if (!THREAD_ID)
+			C.MatrixShow();
 	}
 	// Method F
 	if (string(argv[1]) == "F") {
@@ -232,8 +233,9 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
-			C.MatrixShow();
 		}
+		if (!THREAD_ID)
+			C.MatrixShow();
 	}
 	// Method I
 	if (string(argv[1]) == "I") {
@@ -252,8 +254,9 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
-			C.MatrixShow();
 		}
+		if (!THREAD_ID)
+			C.MatrixShow();
 	}
 	// Method L
 	if (string(argv[1]) == "L") {
@@ -272,8 +275,9 @@ int main(int argc, char** argv) {
 			prints(output, "#", 100);
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
-			C.MatrixShow();
 		}
+		if (!THREAD_ID)
+			C.MatrixShow();
 	}
 	MPI_Finalize();
 	return 0;
