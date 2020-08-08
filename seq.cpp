@@ -116,11 +116,11 @@ int main(int argc, char** argv) {
 
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
-	A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
+	A.Init(SampleA(1), Matrix::ALL_RANDOM, true);
 	if (string(argv[1]) == "D" || string(argv[1]) == "J")
-		B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
+		B.Init(SampleB(1), Matrix::ALL_RANDOM, false);
 	else
-		B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
+		B.Init(SampleB(1), Matrix::ALL_RANDOM, true);
 	C.Init(NULL, Matrix::ALL_ZERO, true);
 
 
@@ -142,8 +142,6 @@ int main(int argc, char** argv) {
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
-
-
 	// Method D
 	if (string(argv[1]) == "D") {
 		output = string(" Phase 2 : Matrix Multiplying ");
@@ -161,7 +159,6 @@ int main(int argc, char** argv) {
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
-
 	// Method G
 	if (string(argv[1]) == "G") {
 		output = string(" Phase 2 : Matrix Multiplying ");
@@ -179,7 +176,6 @@ int main(int argc, char** argv) {
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
-
 	// Method J
 	if (string(argv[1]) == "J") {
 		output = string(" Phase 2 : Matrix Multiplying ");

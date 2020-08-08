@@ -79,7 +79,7 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 	int start, end, temp[4] = { 0 }, pos = 0;
 	start = THREAD_ID * (DIM / NUMBER_OF_THREADS);
 	end = start + (DIM / NUMBER_OF_THREADS);
-	int* result = new int[(DIM / NUMBER_OF_THREADS) * DIM];
+	int* result = new int[DIM * (DIM / NUMBER_OF_THREADS)];
 	auto pre = T::now();
 	if (!THREAD_ID) {
 		cout << "\t" << now() << " : " << "Multiplying Started" << endl;
@@ -153,6 +153,10 @@ void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 }
 
 int main(int argc, char** argv) {
+	SampleA(1024);
+	cout << endl << endl;
+	SampleB(1024);
+	exit(0);
 	MPI_Init(NULL, NULL);
 	MPI_Comm_size(MPI_COMM_WORLD, &NUMBER_OF_THREADS);
 	MPI_Comm_rank(MPI_COMM_WORLD, &THREAD_ID);
@@ -186,11 +190,11 @@ int main(int argc, char** argv) {
 	if (!THREAD_ID) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
-		A.Init(SampleA1(), Matrix::ALL_RANDOM, true);
+		A.Init(SampleA(1), Matrix::ALL_RANDOM, true);
 		if (string(argv[1]) == "F" || string(argv[1]) == "L")
-			B.Init(SampleA2(), Matrix::ALL_RANDOM, false);
+			B.Init(SampleB(1), Matrix::ALL_RANDOM, false);
 		else
-			B.Init(SampleA2(), Matrix::ALL_RANDOM, true);
+			B.Init(SampleB(1), Matrix::ALL_RANDOM, true);
 		C.Init(NULL, Matrix::ALL_ZERO, true);
 	}
 
@@ -217,8 +221,6 @@ int main(int argc, char** argv) {
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
-
-
 	// Method F
 	if (string(argv[1]) == "F") {
 		if (!THREAD_ID) {
@@ -238,8 +240,6 @@ int main(int argc, char** argv) {
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
-
-
 	// Method I
 	if (string(argv[1]) == "I") {
 		if (!THREAD_ID) {
@@ -278,9 +278,6 @@ int main(int argc, char** argv) {
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
 	}
-
-
-
 	MPI_Finalize();
 	return 0;
 }

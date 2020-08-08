@@ -36,8 +36,8 @@ void help(int = 0, int = 0);
 bool VerifyMultiplication(int**, int**, int**);
 void prints(string, const char*, int);
 string now();
-int** SampleA1();
-int** SampleA2();
+int** SampleA(int);
+int** SampleB(int);
 
 class Matrix {
 public:

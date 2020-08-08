@@ -77,50 +77,45 @@ void prints(string text, const char* ch, int max_size = 20) {
 	}
 	cout << endl << ((text.size() % 2) ? ch : "") << text << endl;
 }
-int** SampleA1() {
-	int b[8][8] = {
-		{8,7,6,5,4,3,2,1},
-		{7,6,5,4,3,2,1,8},
-		{6,5,4,3,2,1,8,7},
-		{5,4,3,2,1,8,7,6},
-		{4,3,2,1,8,7,6,5},
-		{3,2,1,8,7,6,5,4},
-		{2,1,8,7,6,5,4,3},
-		{1,8,7,6,5,4,3,2}
-	};
-	int** temp = new int* [8];
-	for (int i = 0; i < 8; i++)
+int** SampleA(int repeat) {
+	int Dim = repeat * 8;
+	int** temp = new int* [Dim];
+	int start = 1;
+	for (int i = 0; i < Dim; i++)
 	{
-		temp[i] = new int[8];
-		for (int j = 0; j < 8; j++)
+		temp[i] = new int[Dim];
+		for (int j = 0; j < Dim; j++)
 		{
-			temp[i][j] = b[i][j];
+			temp[i][j] = start;
+			start++;
+			if (start == 9)
+				start = 1;
 		}
+		start++;
+		if (start == 9)
+			start = 1;
 	}
-	return temp;
+	return 0;
 }
-int** SampleA2() {
-	int a[8][8] =
+int** SampleB(int repeat) {
+	int Dim = repeat * 8;
+	int** temp = new int* [Dim];
+	int start = 8;
+	for (int i = 0; i < Dim; i++)
 	{
-		{1,2,3,4,5,6,7,8},
-		{2,3,4,5,6,7,8,1},
-		{3,4,5,6,7,8,1,2},
-		{4,5,6,7,8,1,2,3},
-		{5,6,7,8,1,2,3,4},
-		{6,7,8,1,2,3,4,5},
-		{7,8,1,2,3,4,5,6},
-		{8,1,2,3,4,5,6,7}
-	};
-	int** temp = new int* [8];
-	for (int i = 0; i < 8; i++)
-	{
-		temp[i] = new int[8];
-		for (int j = 0; j < 8; j++)
+		temp[i] = new int[Dim];
+		for (int j = 0; j < Dim; j++)
 		{
-			temp[i][j] = a[i][j];
+			temp[i][j] = start;
+			start--;
+			if (start == 0)
+				start = 8;
 		}
+		start++;
+		if (start == 0)
+			start = 8;
 	}
-	return temp;
+	return 0;
 }
 void Matrix::Init(int** matrix = NULL, short int type = ALL_RANDOM, bool is_row_major = true)
 {
