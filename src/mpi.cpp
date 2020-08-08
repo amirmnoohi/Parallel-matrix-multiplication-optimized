@@ -183,11 +183,11 @@ int main(int argc, char** argv) {
 	if (!THREAD_ID) {
 		output = string(" Phase 1 : Matrix Creation ");
 		prints(output, "#", 100);
-		A.Init(SampleA(1024), Matrix::ALL_MATRIX, true);
+		A.Init(NULL, Matrix::ALL_RANDOM, true);
 		if (string(argv[1]) == "F" || string(argv[1]) == "L")
-			B.Init(SampleB(1024), Matrix::ALL_MATRIX, false);
+			B.Init(NULL, Matrix::ALL_RANDOM, false);
 		else
-			B.Init(SampleB(1024), Matrix::ALL_MATRIX, true);
+			B.Init(NULL, Matrix::ALL_RANDOM, true);
 		C.Init(NULL, Matrix::ALL_ZERO, true);
 	}
 
@@ -213,8 +213,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		if (!THREAD_ID)
-			C.MatrixShow();
 	}
 	// Method F
 	if (string(argv[1]) == "F") {
@@ -234,8 +232,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		if (!THREAD_ID)
-			C.MatrixShow();
 	}
 	// Method I
 	if (string(argv[1]) == "I") {
@@ -255,8 +251,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		if (!THREAD_ID)
-			C.MatrixShow();
 	}
 	// Method L
 	if (string(argv[1]) == "L") {
@@ -276,8 +270,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		if (!THREAD_ID)
-			C.MatrixShow();
 	}
 	MPI_Finalize();
 	return 0;

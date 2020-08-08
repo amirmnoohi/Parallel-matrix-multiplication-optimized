@@ -106,11 +106,11 @@ int main(int argc, char** argv) {
 
 	output = string(" Phase 1 : Matrix Creation ");
 	prints(output, "#", 100);
-	A.Init(SampleA(1024), Matrix::ALL_MATRIX, true);
+	A.Init(NULL, Matrix::ALL_RANDOM, true);
 	if (string(argv[1]) == "E" || string(argv[1]) == "K")
-		B.Init(SampleB(1024), Matrix::ALL_MATRIX, false);
+		B.Init(NULL, Matrix::ALL_RANDOM, false);
 	else
-		B.Init(SampleB(1024), Matrix::ALL_MATRIX, true);
+		B.Init(NULL, Matrix::ALL_RANDOM, true);
 	C.Init(NULL, Matrix::ALL_ZERO, true);
 
 
@@ -131,7 +131,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		C.MatrixShow();
 	}
 
 	// Method E
@@ -150,7 +149,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		C.MatrixShow();
 	}
 
 	// Method H
@@ -169,7 +167,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		C.MatrixShow();
 	}
 	// Method K
 	if (string(argv[1]) == "K") {
@@ -187,7 +184,6 @@ int main(int argc, char** argv) {
 			bool status = VerifyMultiplication(A._matrix, B._matrix, C._matrix);
 			cout << "\tResult is :" << (status ? " Verified" : " Wrong") << endl;
 		}
-		C.MatrixShow();
 	}
 	return 0;
 }
