@@ -39,7 +39,6 @@ void  FlatRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 		delete[] result;
 	}
 }
-
 // Flat Column Major Multiply
 void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	int start, end, temp = 0, pos = 0;
@@ -73,7 +72,6 @@ void  FlatCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 		delete[] result;
 	}
 }
-
 // Block Row Major Multiply
 void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	int start, end, temp[4] = { 0 }, pos = 0;
@@ -112,7 +110,6 @@ void BlockRMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * D
 		cout << "\tTime: " << chrono::duration_cast<Time>(finish - pre).count() << endl;
 	}
 }
-
 // Block Column Major Multiply
 void BlockCMultiply(int left[DIM * DIM], int right[DIM * DIM], int final[DIM * DIM]) {
 	int start, end, temp[4] = { 0 }, pos = 0;
