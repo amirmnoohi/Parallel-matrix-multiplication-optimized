@@ -95,7 +95,7 @@ int** SampleA(int repeat) {
 		if (start == 9)
 			start = 1;
 	}
-	return 0;
+	return temp;
 }
 int** SampleB(int repeat) {
 	int Dim = repeat * 8;
@@ -115,7 +115,7 @@ int** SampleB(int repeat) {
 		if (start == 0)
 			start = 8;
 	}
-	return 0;
+	return temp;
 }
 void Matrix::Init(int** matrix = NULL, short int type = ALL_RANDOM, bool is_row_major = true)
 {
